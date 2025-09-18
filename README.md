@@ -5,19 +5,15 @@ Projects in the solution:
 
 - SecclConnector - (ClassLib) http client to make requests to the SECCL API.
 - SecclConnector.Test - (XUnit) test the seccl connector functions.
-
 - Aggregator - (ClassLib) busniess logic that calculates the aggregates.	
-- Aggregator.Test - (XUnit) test the aggregator functions. (haven't done this yet)
-	
+- Aggregator.Test - (XUnit) test the aggregator functions. (haven't done this)	
 - Models - (ClassLib) record classes for the Balances and valuations data. Shared with api and web app.
-
 - WebApi - (WebApi) listens for requests and responds with appropriate output using minimal code.
-	
 - WebApp - (Blazor WASM) UI to display the seccl totals  data to the user.
 
 Things complete / not up to standard.
 
-- Haven't written tests for the Aggregator project yet.
+- Haven't written tests for the Aggregator project.
 - The blazor app has the httpclient code in the home page code block. This should be in a class.
 - The blazor app should be using appsettings in wwwroot to store the api url.
 - The blazor app should have a loading spinner when waiting for the api response.
