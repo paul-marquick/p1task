@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using P1Task.Aggregator;
 using P1Task.Models;
 using P1Task.SecclConnector;
+using P1Task.WebApi;
 using P1Task.WebApi.Startup;
 
 const string memoryCacheTokenKey = "token";
@@ -11,10 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddMemoryCache();
+builder.Configuration.AddUserSecrets<Secrets>();
 var config = builder.GetConfig();
 builder.AddHttpClients(config.SecclApiBaseAddress);
+
+builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<ITotalsAggregator, TotalsAggregator>();
+builder.Services.Configure<Secrets>(builder.Configuration.GetSection(nameof(Secrets)));
 
 builder.Services.AddCors(options =>
 {
@@ -35,7 +40,8 @@ app.UseCors(allowAllCorsName);
 // Configure the HTTP request pipeline.
 
 app.MapGet("/totals", async (
-    IMemoryCache memoryCache, 
+    IMemoryCache memoryCache,
+    IOptionsMonitor<Secrets> secretsOptionsMonitor,
     ITokenHttpClient tokenHttpClient, 
     IPortfolioSummaryHttpClient portfolioSummaryHttpClient, 
     ITotalsAggregator totalsAggregator) =>
@@ -45,10 +51,13 @@ app.MapGet("/totals", async (
     if (!memoryCache.TryGetValue(memoryCacheTokenKey, out string? token))
     {
         // Token not found in memory cache, get a new one from token client.
-        token = await tokenHttpClient.GetTokenAsync(config.SecclFirmId, config.SecclId, config.SecclPassword); 
+        token = await tokenHttpClient.GetTokenAsync(
+            secretsOptionsMonitor.CurrentValue.SecclFirmId,
+            secretsOptionsMonitor.CurrentValue.SecclId,
+            secretsOptionsMonitor.CurrentValue.SecclPassword); 
         
         // Store the new access token in memory cache.
-        memoryCache.Set(memoryCacheTokenKey, token);
+        memoryCache.Set(memoryCacheTokenKey, token, TimeSpan.FromMinutes(5)); // Bodge way of getting a new token before the old one expires.
     }
 
     // Get portfolio summaries from portfolio summary client.
@@ -58,11 +67,11 @@ app.MapGet("/totals", async (
     // C069J8P - Corry Bloggs.
 
     List<PortfolioSummary> portfolioSummaries = [];
-    portfolioSummaries.Add(await portfolioSummaryHttpClient.GetPortfolioSummaryAsync(token!, config.SecclFirmId, "00GG5G2"));
-    portfolioSummaries.Add(await portfolioSummaryHttpClient.GetPortfolioSummaryAsync(token!, config.SecclFirmId, "033D9GG"));
-    portfolioSummaries.Add(await portfolioSummaryHttpClient.GetPortfolioSummaryAsync(token!, config.SecclFirmId, "C069J8P"));
+    portfolioSummaries.Add(await portfolioSummaryHttpClient.GetPortfolioSummaryAsync(token!, secretsOptionsMonitor.CurrentValue.SecclFirmId, "00GG5G2"));
+    portfolioSummaries.Add(await portfolioSummaryHttpClient.GetPortfolioSummaryAsync(token!, secretsOptionsMonitor.CurrentValue.SecclFirmId, "033D9GG"));
+    portfolioSummaries.Add(await portfolioSummaryHttpClient.GetPortfolioSummaryAsync(token!, secretsOptionsMonitor.CurrentValue.SecclFirmId, "C069J8P"));
 
-    // get totals from totals aggregator.
+    // Get totals from totals aggregator.
     Totals totals = totalsAggregator.AggregateTotals(portfolioSummaries);
 
     return totals;
