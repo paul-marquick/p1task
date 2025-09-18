@@ -1,0 +1,38 @@
+﻿@page "/"
+@using P1Task.Models
+@inject ITotalsHttpClient totalsHttpClient
+
+<PageTitle>Portfolio Summaries</PageTitle>
+
+<h1>Portfolio Summaries</h1>
+
+@if (totals is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="alert alert-info" role="alert">
+        <p>Total: @totals.Total</p>
+        <p>Total by account types: <br />
+            <ul>
+            @foreach (var item in totals.AccountTotals!)
+            {
+                <li>@item.AccountType: @item.Total </li>
+            }
+            </ul>
+        </p>
+    </div>
+}
+
+@code 
+{
+    private Totals? totals;
+
+    protected override async Task OnInitializedAsync()
+    {
+        totals = await totalsHttpClient.GetTotalsAsync();
+
+        StateHasChanged();    
+    }
+}

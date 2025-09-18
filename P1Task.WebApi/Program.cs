@@ -5,21 +5,36 @@ using P1Task.SecclConnector;
 using P1Task.WebApi.Startup;
 
 const string memoryCacheTokenKey = "token";
+const string allowAllCorsName = "AllowAll";
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
 
 builder.Services.AddMemoryCache();
 var config = builder.GetConfig();
 builder.AddHttpClients(config.SecclApiBaseAddress);
 builder.Services.AddSingleton<ITotalsAggregator, TotalsAggregator>();
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowAllCorsName,
+        policy =>
+        {
+            policy.AllowAnyOrigin() 
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("*");
+        });
+});
 
 var app = builder.Build();
 
+app.UseCors(allowAllCorsName);
+
 // Configure the HTTP request pipeline.
 
-app.MapGet("/", async (
+app.MapGet("/totals", async (
     IMemoryCache memoryCache, 
     ITokenHttpClient tokenHttpClient, 
     IPortfolioSummaryHttpClient portfolioSummaryHttpClient, 
