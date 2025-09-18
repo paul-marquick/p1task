@@ -1,11 +1,11 @@
-﻿using P1Task.Dtos;
+﻿using P1Task.Models;
 using System.Text.Json;
 
 namespace P1Task.SecclConnector;
 
-public class AccountClient(HttpClient httpClient) : IAccountClient
+public class PortfolioSummaryHttpClient(HttpClient httpClient) : IPortfolioSummaryHttpClient
 {
-    public async Task<List<Account>> GetAccountsAsync(string token, string firmId, string clientId)
+    public async Task<PortfolioSummary> GetPortfolioSummaryAsync(string token, string firmId, string clientId)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"portfolio/summary/{firmId}/{clientId}");
         request.Headers.Add("Authorization", $"Bearer {token}");
@@ -14,16 +14,11 @@ public class AccountClient(HttpClient httpClient) : IAccountClient
         
         var portfolioSummaryResponse = JsonSerializer.Deserialize<PortfolioSummaryResponse>(await response.Content.ReadAsStringAsync(), JsonSerializerOptions.Web)!;
 
-        return portfolioSummaryResponse.Data.Accounts;
+        return portfolioSummaryResponse.Data;
     }
 
     private record PortfolioSummaryResponse
     {
-        public required Data Data { get; set; }
-    }
-
-    private record Data
-    {
-        public required List<Account> Accounts { get; set; }
+        public required PortfolioSummary Data { get; set; }
     }
 }

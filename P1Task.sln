@@ -5,9 +5,13 @@ VisualStudioVersion = 17.14.36429.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P1Task.SecclConnector", "P1Task.SecclConnector\P1Task.SecclConnector.csproj", "{46FA0810-6D78-4615-83BB-B0AFEA41CC5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P1Task.Dtos", "P1Task.Dtos\P1Task.Dtos.csproj", "{E5A22B87-FE69-46A0-9064-6C10190FA4DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P1Task.Models", "P1Task.Models\P1Task.Models.csproj", "{E5A22B87-FE69-46A0-9064-6C10190FA4DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P1Task.SecclConnector.Test", "P1Task.SecclConnector.Test\P1Task.SecclConnector.Test.csproj", "{B218BEB6-E4F6-4868-B0E9-357E4E780D2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P1Task.WebApi", "P1Task.WebApi\P1Task.WebApi.csproj", "{C25BE56B-FBB1-4B90-A9B9-3CD083118395}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P1Task.Aggregator", "P1Task.Aggregator\P1Task.Aggregator.csproj", "{C3C499AC-F42F-44C0-9618-CF03EC0044FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{B218BEB6-E4F6-4868-B0E9-357E4E780D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B218BEB6-E4F6-4868-B0E9-357E4E780D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B218BEB6-E4F6-4868-B0E9-357E4E780D2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C25BE56B-FBB1-4B90-A9B9-3CD083118395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C25BE56B-FBB1-4B90-A9B9-3CD083118395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C25BE56B-FBB1-4B90-A9B9-3CD083118395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C25BE56B-FBB1-4B90-A9B9-3CD083118395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3C499AC-F42F-44C0-9618-CF03EC0044FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3C499AC-F42F-44C0-9618-CF03EC0044FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3C499AC-F42F-44C0-9618-CF03EC0044FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3C499AC-F42F-44C0-9618-CF03EC0044FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

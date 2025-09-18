@@ -4,7 +4,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace P1Task.SecclConnector;
 
-public class TokenClient(HttpClient httpClient) : ITokenClient
+public class TokenHttpClient(HttpClient httpClient) : ITokenHttpClient
 {
     public async Task<string> GetTokenAsync(string firmId, string id, string password)
     {

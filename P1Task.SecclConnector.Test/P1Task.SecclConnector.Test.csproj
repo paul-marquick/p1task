@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\P1Task.Dtos\P1Task.Dtos.csproj" />
+    <ProjectReference Include="..\P1Task.Models\P1Task.Models.csproj" />
     <ProjectReference Include="..\P1Task.SecclConnector\P1Task.SecclConnector.csproj" />
   </ItemGroup>
 
