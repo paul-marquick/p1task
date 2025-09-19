@@ -11,7 +11,7 @@ Projects in the solution:
 - WebApi - (WebApi) listens for requests and responds with appropriate output using minimal code.
 - WebApp - (Blazor WASM) UI to display the seccl totals  data to the user.
 
-Things complete / not up to standard.
+Things incomplete / not up to standard.
 
 - Haven't written tests for the Aggregator project.
 - The blazor app has the httpclient code in the home page code block. This should be in a class or a class library.
